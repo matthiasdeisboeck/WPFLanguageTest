@@ -1,4 +1,5 @@
-﻿using System.Windows.Markup;
+﻿using System.Resources;
+using System.Windows.Markup;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace LangTest;

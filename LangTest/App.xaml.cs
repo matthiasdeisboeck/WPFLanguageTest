@@ -2,6 +2,7 @@
 using System.Data;
 using System.Globalization;
 using System.Windows;
+using LangTest.Properties;
 
 namespace LangTest
 {
@@ -12,6 +13,7 @@ namespace LangTest
     {
         public App()
         {
+
         }
     }
 }

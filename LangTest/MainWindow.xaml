@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangTest"
+        xmlns:properties="clr-namespace:LangTest.Properties"
         mc:Ignorable="d"
         Title="MainWindow" 
         Language="{Binding Language, Source={x:Static local:LanguageProvider.Instance}}"
@@ -29,7 +30,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions> 
 
         <StackPanel Grid.Row="0" Grid.Column="0">
             <Button Content="Switch" Width="130" Command="{Binding ChangeLanguageCommand}" />
@@ -42,14 +43,14 @@
         </StackPanel>
 
 
-        <StackPanel Grid.Row="1" Grid.Column="0" xml:lang="en-US">
-            <TextBlock Text="Language = en-US" />
-            <TextBlock Text="{Binding DecimalValue, Converter={StaticResource DecimalToStringConverter}}" />
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <TextBlock Text="Language = fix" />
+             <TextBlock Text="{x:Static properties:Resources.Hallo}" /> 
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" xml:lang="de-DE">
-            <TextBlock Text="Language = de-DE" />
-            <TextBlock Text="{Binding DecimalValue, Converter={StaticResource DecimalToStringConverter}}" />
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock Text="Language = dynamisch" />
+            <TextBlock Text="{local:DynamicResource ResourceType={x:Type properties:Resources}, PropertyName=Hallo}" />
         </StackPanel>
     </Grid>
 </Window>
