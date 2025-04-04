@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Reflection;
 using System.Resources;
 
@@ -10,13 +11,13 @@ namespace LangTest.WpfLibrary;
 public class DynamicResourceObserver : INotifyPropertyChanged
 {
     // Cache für direkte String-Werte
-    private readonly Dictionary<string, string> _cachedValues = new();
+    private readonly ConcurrentDictionary<string, string> _cachedValues = new();
 
     // Todo: Abklären - Optional auf Generationen basierender Cache für Werte - nur bei großen Datenmengen sinnvoll
     // private readonly Dictionary<string, (string value, int generation)> _cachedValuesWithGeneration = new();
 
     // Cache für ResourceManager nach Type
-    private readonly Dictionary<Type, ResourceManager> _resourceManagers = new();
+    private readonly ConcurrentDictionary<Type, ResourceManager> _resourceManagers = new();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -42,13 +43,7 @@ public class DynamicResourceObserver : INotifyPropertyChanged
         string cacheKey = $"{resourceType.FullName}|{propertyName}";
 
         // Wert aus Cache verwenden oder neu erstellen
-        if (!this._cachedValues.TryGetValue(cacheKey, out string? value))
-        {
-            value = LoadResourceValue(resourceType, propertyName, cacheKey);
-            this._cachedValues[cacheKey] = value;
-        }
-
-        return value;
+        return _cachedValues.GetOrAdd(cacheKey, key => LoadResourceValue(resourceType, propertyName, key));
     }
 
     /// <summary>
@@ -82,14 +77,11 @@ public class DynamicResourceObserver : INotifyPropertyChanged
     {
         try
         {
-            // ResourceManager aus Cache verwenden oder neu erstellen
-            if (!this._resourceManagers.TryGetValue(resourceType, out var resourceManager))
-            {
-                resourceManager = new ResourceManager(resourceType);
-                this._resourceManagers[resourceType] = resourceManager;
-            }
+            // Thread-sicher ResourceManager holen oder erstellen
+            var resourceManager = _resourceManagers.GetOrAdd(resourceType, type =>
+                new ResourceManager(type));
 
-            // Ressource laden
+            // ResourceManager.GetString ist intern thread-sicher
             return resourceManager.GetString(propertyName);
         }
         catch
