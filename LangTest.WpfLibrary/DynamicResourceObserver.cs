@@ -8,23 +8,18 @@ namespace LangTest.WpfLibrary;
 /// <summary>
 /// Optimierter Observer für lokalisierte Ressourcen mit direkter ResourceManager-Unterstützung
 /// </summary>
-public class DynamicResourceObserver : INotifyPropertyChanged
+public class DynamicResourceObserver
 {
-    // Cache für direkte String-Werte
+    // Cache für direkte String-Werte - Optimierung mit Generation-Cache möglich
     private readonly ConcurrentDictionary<string, string> _cachedValues = new();
-
-    // Todo: Abklären - Optional auf Generationen basierender Cache für Werte - nur bei großen Datenmengen sinnvoll
-    // private readonly Dictionary<string, (string value, int generation)> _cachedValuesWithGeneration = new();
 
     // Cache für ResourceManager nach Type
     private readonly ConcurrentDictionary<Type, ResourceManager> _resourceManagers = new();
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public DynamicResourceObserver()
     {
-        // Cache vor Sprachwechsel leeren - Wechsel löst UI-Update aus.
-        LanguageProvider.Instance.LanguageChanging += (sender, args) =>
+        // Cache vor Sprachwechsel leeren - Wechsel der Sprache löst UI-Update aus.
+        LanguageProvider.Instance.LanguageChanging += (_, _) =>
         {
             this._cachedValues.Clear();
         };
@@ -40,9 +35,7 @@ public class DynamicResourceObserver : INotifyPropertyChanged
             return string.Empty;
         }
 
-        string cacheKey = $"{resourceType.FullName}|{propertyName}";
-
-        // Wert aus Cache verwenden oder neu erstellen
+        var cacheKey = $"{resourceType.FullName}|{propertyName}";
         return _cachedValues.GetOrAdd(cacheKey, key => LoadResourceValue(resourceType, propertyName, key));
     }
 
@@ -52,7 +45,7 @@ public class DynamicResourceObserver : INotifyPropertyChanged
     private string LoadResourceValue(Type resourceType, string propertyName, string cacheKey)
     {
         // Versuche, über ResourceManager zu laden (effizienteste Methode)
-        string? resourceValue = GetResourceFromManager(resourceType, propertyName);
+        var resourceValue = GetResourceFromManager(resourceType, propertyName);
         if (!string.IsNullOrEmpty(resourceValue))
         {
             return resourceValue;
@@ -62,11 +55,10 @@ public class DynamicResourceObserver : INotifyPropertyChanged
         var property = resourceType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
         if (property != null && property.CanRead)
         {
-            object? value = property.GetValue(null);
+            var value = property.GetValue(null);
             return value?.ToString() ?? $"[Null-Wert: {cacheKey}]";
         }
 
-        // Ressource nicht gefunden
         return $"[Nicht gefunden: {cacheKey}]";
     }
 
@@ -77,11 +69,7 @@ public class DynamicResourceObserver : INotifyPropertyChanged
     {
         try
         {
-            // Thread-sicher ResourceManager holen oder erstellen
-            var resourceManager = _resourceManagers.GetOrAdd(resourceType, type =>
-                new ResourceManager(type));
-
-            // ResourceManager.GetString ist intern thread-sicher
+            var resourceManager = _resourceManagers.GetOrAdd(resourceType, type => new ResourceManager(type));
             return resourceManager.GetString(propertyName);
         }
         catch

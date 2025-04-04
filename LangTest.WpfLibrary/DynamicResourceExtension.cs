@@ -61,7 +61,6 @@ public class DynamicResourceExtension : MarkupExtension
         }
 #endif
 
-        // Validierung
         if (this.ResourceType == null || string.IsNullOrEmpty(this.PropertyName))
         {
             return string.Empty;
@@ -98,8 +97,7 @@ public class DynamicResourceExtension : MarkupExtension
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            // Parameter validieren
-            if (values.Length != 2 || !(parameter is DynamicResourceObserver observer))
+            if (values.Length != 2 || parameter is not DynamicResourceObserver observer)
             {
                 return string.Empty;
             }
