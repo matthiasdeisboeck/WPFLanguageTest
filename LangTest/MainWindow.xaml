@@ -6,9 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangTest"
         xmlns:properties="clr-namespace:LangTest.Properties"
+        xmlns:wpfLibrary="clr-namespace:LangTest.WpfLibrary;assembly=LangTest.WpfLibrary"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Language="{Binding Language, Source={x:Static local:LanguageProvider.Instance}}"
+        Language="{Binding Language, Source={x:Static wpfLibrary:LanguageProvider.Instance}}"
         FontSize="16"
         Height="450"
         Width="800">
@@ -50,7 +51,7 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Language = dynamisch" />
-            <TextBlock Text="{local:DynamicResource ResourceType={x:Type properties:Resources}, PropertyName=Hallo}" />
+            <TextBlock Text="{wpfLibrary:DynamicResource ResourceType={x:Type properties:Resources}, PropertyName=Hallo}" />
         </StackPanel>
     </Grid>
 </Window>

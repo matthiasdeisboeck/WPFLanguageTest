@@ -2,9 +2,6 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
@@ -13,8 +10,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <ProjectReference Include="..\LangTest.WpfLibrary\LangTest.WpfLibrary.csproj" />
   </ItemGroup>
+
+	<!--<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" />
+	</ItemGroup>-->
 
   <ItemGroup>
     <Resource Include="Properties\Resources.resx">

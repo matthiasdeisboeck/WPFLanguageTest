@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LangTest", "LangTest\LangTest.csproj", "{F36B3B4B-FFD1-4FC9-986A-E70C4FC3698E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LangTest.WpfLibrary", "LangTest.WpfLibrary\LangTest.WpfLibrary.csproj", "{8B80FE0C-137B-4EB6-A728-A62446109132}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +23,15 @@ Global
 		{F36B3B4B-FFD1-4FC9-986A-E70C4FC3698E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F36B3B4B-FFD1-4FC9-986A-E70C4FC3698E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F36B3B4B-FFD1-4FC9-986A-E70C4FC3698E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B80FE0C-137B-4EB6-A728-A62446109132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B80FE0C-137B-4EB6-A728-A62446109132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B80FE0C-137B-4EB6-A728-A62446109132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B80FE0C-137B-4EB6-A728-A62446109132}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B80DAAAF-62D7-4A3E-B7D4-600D6C384BC1}
 	EndGlobalSection
 EndGlobal

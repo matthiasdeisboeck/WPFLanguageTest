@@ -1,8 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Windows;
-using LangTest.Properties;
+﻿using System.Windows;
 
 namespace LangTest
 {
@@ -13,7 +9,6 @@ namespace LangTest
     {
         public App()
         {
-
         }
     }
 }
